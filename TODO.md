@@ -203,4 +203,3 @@ To build and push the image to the repository, run the following code in fronten
 ```bash
 docker buildx build --platform linux/amd64,linux/arm64 -t nut17/docker-test:frontend --push .
 ```
-
