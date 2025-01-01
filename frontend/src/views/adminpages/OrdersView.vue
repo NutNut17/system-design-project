@@ -55,6 +55,9 @@ const fetchPurchase = async () => {
         if (response && response.data) {
             purchase.value = response.data;
             console.log(purchase.value);
+            purchase.value.forEach(purchase => {
+                purchase.createdAt = new Date(purchase.createdAt).toLocaleString();
+            })
         } else {
             console.error('No data received from the API');
         }
@@ -361,7 +364,7 @@ const sizeOptions = ref([
                 <Column field="Product.name" header="Product" sortable style="min-width: 6rem"></Column>
                 <Column field="card_id" header="Card No" sortable style="min-width: 6rem"></Column>
                 <Column field="quantity" header="Quantity" sortable style="min-width: 6rem"></Column>
-        
+                <Column field="createdAt" header="Purchase Time" sortable style="min-width: 6rem"></Column>
             </DataTable>
         </div>
 

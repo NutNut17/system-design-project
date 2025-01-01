@@ -11,7 +11,7 @@ import axios from 'axios';
 const toast = useToast();
 const dt = ref();
 
-const purchase = ref();
+const carts = ref();
 const selectedpurchase = ref();
 
 const userDialog = ref(false);
@@ -52,10 +52,12 @@ onMounted(async () => {
 
 const fetchPurchase = async () => {
     try {
-        const response = await axios.get(`${backendUrl}/api/purchase`);
+        const response = await axios.get(`${backendUrl}/api/carts`);
         if (response && response.data) {
-            purchase.value = response.data;
-            console.log(purchase.value);
+            carts.value = response.data;
+            carts.value.forEach(cart => {
+                cart.createdAt = new Date(cart.createdAt).toLocaleString();
+            })
         } else {
             console.error('No data received from the API');
         }
@@ -205,11 +207,11 @@ const onFormSubmit = ({ valid }) => {
 
 
 const deleteUser = async () => {
-    
+
     try {
         const response = await axios.delete(`${backendUrl}/api/purchase/${userId.value}`);
         if (response.status === 204) {
-            purchase.value = purchase.value.filter(val => val.id !== userId.value);
+            carts.value = carts.value.filter(val => val.id !== userId.value);
             toast.add({ severity: 'success', summary: 'Successful', detail: 'User Deleted', life: 3000 });
             deleteUserDialog.value = false;
         } else {
@@ -226,7 +228,7 @@ const deleteUser = async () => {
 // Delete purchase
 const deleteSelectedpurchase = async () => {
 
-    for (const user of selectedpurchase.value) {
+    for (const user of carts.value) {
         try {
             console.log(user);
             await axios.delete(`${backendUrl}/api/purchase/${user.id}`);
@@ -235,9 +237,9 @@ const deleteSelectedpurchase = async () => {
             toast.add({ severity: 'error', summary: 'Error', detail: 'user Not Deleted', life: 3000 });
         }
     }
-    purchase.value = purchase.value.filter(val => !selectedpurchase.value.includes(val));
+    carts.value = carts.value.filter(val => !carts.value.includes(val));
     deletepurchaseDialog.value = false;
-    selectedpurchase.value = null;
+    carts.value = null;
     toast.add({ severity: 'success', summary: 'Successful', detail: 'purchase Deleted', life: 3000 });
 
 };
@@ -271,17 +273,6 @@ const editUser = async (prod) => {
     address.value = prod.address.address;
     selectedCounty.value = prod.address.county;
     selectedDistrict.value = prod.address.district;
-
-    // initialValues.value = {
-    //     uname: prod.uname,
-    //     email: prod.email,
-    //     password: prod.password,
-    //     address: {
-    //         address: prod.address.address,
-    //         county: prod.address.county,
-    //         district: prod.address.district,
-    //     }
-    // }
 
     console.log(initialValues.value);
 
@@ -326,7 +317,7 @@ const sizeOptions = ref([
         </Card>
         <Toast />
         <div class="mt-4">
-            <DataTable ref="dt" v-model:selection="selectedpurchase" :value="purchase" dataKey="id" :paginator="true"
+            <DataTable ref="dt" v-model:selection="selectedpurchase" :value="carts" dataKey="id" :paginator="true"
                 :rows="10" :filters="filters" :size="size.value" stripedRows resizableColumns columnResizeMode="expand"
                 paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
                 :rowsPerPageOptions="[5, 10, 25]"
@@ -361,121 +352,8 @@ const sizeOptions = ref([
                 <Column field="User.uname" header="User" sortable style="min-width: 10rem"></Column>
                 <Column field="Product.name" header="Item" sortable style="min-width: 6rem"></Column>
                 <Column field="quantity" header="Quantity" sortable style="min-width: 6rem"></Column>
-        
+                <Column field="createdAt" header="Created Time" sortable style="min-width: 6rem"></Column>
             </DataTable>
         </div>
-
-        <Dialog v-model:visible="userDialog" :style="{ width: '80%' }" header="User Details" :modal="true">
-            <Form v-slot="$form" :resolver="resolver" :initialValues="initialValues" :validateOnValueUpdate="false"
-                @submit="onFormSubmit" class="flex flex-column gap-4 px-6">
-                <InputGroup>
-                    <InputGroupAddon>
-                        <i class="pi pi-user"></i>
-                    </InputGroupAddon>
-                    <InputText v-model="uname" name="uname" placeholder="Username" />
-                </InputGroup>
-                <Message v-if="$form.uname?.invalid" severity="error" size="small" variant="simple">
-                    {{ $form.uname.error?.message }}</Message>
-
-                <InputGroup>
-                    <InputGroupAddon>
-                        <i class="pi pi-envelope"></i>
-                    </InputGroupAddon>
-                    <InputText v-model="email" name="email" placeholder="Email" />
-                </InputGroup>
-                <Message v-if="$form.email?.invalid" severity="error" size="small" variant="simple">
-                    {{ $form.email.error?.message }}</Message>
-
-                <InputGroup>
-                    <InputGroupAddon>
-                        <i class="pi pi-key"></i>
-                    </InputGroupAddon>
-                    <Password v-model="password" name="password" type="text" placeholder="Password"
-                        :formControl="{ validateOnValueUpdate: true }" toggleMask fluid>
-                        <template #header>
-                            <div class="font-semibold text-xm mb-4">Pick a password</div>
-                        </template>
-                        <template #footer>
-                            <Divider />
-                            <Message v-if="$form.password?.invalid" v-for="(error, index) of $form.password.errors"
-                                :key="index" severity="error" size="small" variant="simple">{{ error.message }}
-                            </Message>
-                        </template>
-                    </Password>
-                </InputGroup>
-                <Message v-if="$form.password?.invalid" severity="error" size="small" variant="simple">
-                    {{ $form.password.error?.message }}</Message>
-
-                <InputGroup>
-                    <InputGroupAddon>
-                        <i class="pi pi-key"></i>
-                    </InputGroupAddon>
-                    <Password v-model="passwordConfirm" name="passwordConfirm" type="text"
-                        placeholder="Confirm Password" :formControl="{ validateOnValueUpdate: true }" :feedback="false"
-                        toggleMask fluid />
-                </InputGroup>
-                <Message v-if="$form.passwordConfirm?.invalid" severity="error" size="small" variant="simple">
-                    {{ $form.passwordConfirm.error?.message }}</Message>
-
-                <InputGroup>
-                    <InputGroupAddon>
-                        <i class="pi pi-address-book"></i>
-                    </InputGroupAddon>
-                    <InputText v-model="address" name="address" placeholder="Address" />
-                </InputGroup>
-                <Message v-if="$form.address?.invalid" class='col-6' severity="error" size="small" variant="simple">
-                    {{
-                        $form.address.error?.message }}</Message>
-
-                <InputGroup>
-                    <InputGroupAddon>
-                        <i class="pi pi-map"></i>
-                    </InputGroupAddon>
-                    <Select v-model="selectedCounty" name="county" :options="counties" placeholder="Counties" fluid />
-
-                    <InputGroupAddon>
-                        <i class="pi pi-map"></i>
-                    </InputGroupAddon>
-                    <Select v-model="selectedDistrict" name="district" :options="districts" placeholder="District"
-                        fluid />
-                </InputGroup>
-                <div class="grid">
-                    <Message v-if="$form.county?.invalid" class='col-6' severity="error" size="small" variant="simple">
-                        {{
-                            $form.county.error?.message }}</Message>
-                    <Message v-if="$form.district?.invalid" class='col-6' severity="error" size="small"
-                        variant="simple">{{
-                            $form.district.error?.message }}</Message>
-                </div>
-
-                <div class="flex justify-content-end">
-                    <Button label="Cancel" icon="pi pi-times" text @click="hideDialog" />
-                    <Button label="Save" icon="pi pi-check" type="submit" severity="primary" />
-                </div>
-                <Toast />
-            </Form>
-        </Dialog>
-
-        <Dialog v-model:visible="deleteUserDialog" :style="{ width: '450px' }" header="Confirm" :modal="true">
-            <div class="flex items-center gap-4">
-                <i class="pi pi-exclamation-triangle !text-3xl" />
-                <span v-if="user">Are you sure you want to delete <b>{{ user.name }}</b>?</span>
-            </div>
-            <template #footer>
-                <Button label="No" icon="pi pi-times" text @click="deleteUserDialog = false" />
-                <Button label="Yes" icon="pi pi-check" @click="deleteUser" />
-            </template>
-        </Dialog>
-
-        <Dialog v-model:visible="deletepurchaseDialog" :style="{ width: '450px' }" header="Confirm" :modal="true">
-            <div class="flex items-center gap-4">
-                <i class="pi pi-exclamation-triangle !text-3xl" />
-                <span v-if="user">Are you sure you want to delete the selected purchase?</span>
-            </div>
-            <template #footer>
-                <Button label="No" icon="pi pi-times" text @click="deletepurchaseDialog = false" />
-                <Button label="Yes" icon="pi pi-check" text @click="deleteSelectedpurchase" />
-            </template>
-        </Dialog>
     </div>
 </template>

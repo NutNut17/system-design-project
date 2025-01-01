@@ -7,6 +7,6 @@ router.post('/addcart',  addCartController);
 router.post('/getcart', getCartController);
 router.post('/checkcart', checkCartController);
 router.post('/removecart',removeItemFromCart);
-router.get('/getcart', getCartsController);
+router.get('/carts', getCartsController);
 
 export default router;

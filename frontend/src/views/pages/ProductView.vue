@@ -193,7 +193,7 @@ const rateDisliked = async () => {
 </script>
 
 <template>
-  <div class="grid p-5">
+  <div class="grid">
     <div v-for="product in products" :key="product.id" class="col-6 md:col-4 lg:col-3 xl:col-2 p-2">
       <Card class="h-full shadow-3" style="max-height: 25rem;">
         <template #header>
@@ -207,7 +207,7 @@ const rateDisliked = async () => {
         </template>
         <template #content>
           <div class="font-light">{{ product.category }}</div>
-          <div class=" font-bold mt-2">${{ product.price.toFixed(2) }}</div>
+          <div class=" font-bold">${{ product.price.toFixed(2) }}</div>
         </template>
       </Card>
     </div>
@@ -275,25 +275,25 @@ const rateDisliked = async () => {
     </Dialog>
 
     <Dialog v-model:visible="showAddCartSuccessDialog" :modal="true"
-      :style="{ width: '50vw', maxWidth: '50rem', height: '50vh' }" :header="Information" @close="closeAddCartSuccess"
+      :style="{ width: '50vw', maxWidth: '50rem', height: '50vh' }" @close="closeAddCartSuccess"
       @after-hide="closeAddCartSuccess">
       <div class="text-center">Successfully Added to Cart</div>
     </Dialog>
 
     <Dialog v-model:visible="showAddCartFailedDialog" :modal="true"
-      :style="{ width: '50vw', maxWidth: '50rem', height: '50vh' }" :header="Information" @close="closeAddCartFailed"
+      :style="{ width: '50vw', maxWidth: '50rem', height: '50vh' }" @close="closeAddCartFailed"
       @after-hide="closeAddCartFailed">
       <div class="text-center">Failed Adding to Cart</div>
     </Dialog>
 
     <Dialog v-model:visible="showPurchaseSuccessDialog" :modal="true"
-      :style="{ width: '50vw', maxWidth: '50rem', height: '50vh' }" :header="Information" @close="closePurchaseSuccess"
+      :style="{ width: '50vw', maxWidth: '50rem', height: '50vh' }" @close="closePurchaseSuccess"
       @after-hide="closePurchaseSuccess">
       <div class="text-center">Successfully Purchased</div>
     </Dialog>
 
     <Dialog v-model:visible="showPurchaseFailedDialog" :modal="true"
-      :style="{ width: '50vw', maxWidth: '50rem', height: '50vh' }" :header="Information" @close="closePurchaseFailed"
+      :style="{ width: '50vw', maxWidth: '50rem', height: '50vh' }" @close="closePurchaseFailed"
       @after-hide="closePurchaseFailed">
       <div class="text-center">Purchase Failed</div>
     </Dialog>

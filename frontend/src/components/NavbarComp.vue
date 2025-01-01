@@ -34,7 +34,7 @@ const openCart = async () => {
 
 const logout = () => {
     localStorage.clear();
-    store.clear;
+    store.clear();
     isLoggedIn.value = false;
     isAdmin.value = false;
     router.push('/user/login');
@@ -51,21 +51,26 @@ function toggleDarkMode() {
     <Card>
         <template #content>
             <div class="flex align-items-center">
+                <router-link to="/product">
+                    <div class="flex align-items-center justify-content-center"
+                        style="width: 36px; height: 36px; background-color: white; border-radius: 50%;">
+                        <img src="@/assets/shopping-bag-32px.png"
+                            style="width: 80%; height: 80%; object-fit: cover; object-position: center;" />
+                    </div>
+                </router-link>
+
                 <div class="flex-auto flex left-0 justify-content-evenly align-items-center">
                     <!-- <router-link to="/">
                         <a>Home</a>
                     </router-link> -->
-                    <router-link to="/product">
-                        <a>Product</a>
-                    </router-link>
                     <!-- <router-link to="/post">
                         <a>Post</a>
                     </router-link> -->
-                    <router-link v-if="isAdmin" to="/admin/users">
-                        <a>Admin</a>
-                    </router-link>
                 </div>
                 <div class="flex align-items-center justify-content-evenly left-0 gap-5 ">
+                    <router-link v-if="isAdmin" to="/admin/users">
+                        <i class="pi pi-user-edit" />
+                    </router-link>
                     <a @click="openCart"><i class="pi pi-shopping-cart" /></a>
                     <a @click="toggleDarkMode()">
                         <i v-if="dark" class="pi pi-sun"></i>

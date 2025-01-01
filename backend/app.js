@@ -25,11 +25,11 @@ await connectSqlite();
 
 const syncModels = async () => {
     try {
-        await UserSqliteModel.sync({ alter: true });
-        await CardSqliteModel.sync({ alter: true });
-        await ProductSqliteModel.sync({ alter: true });
-        await CartSqliteModel.sync({ alter: true });
-        await PurchaseSqliteModel.sync({ alter: true });
+        // await UserSqliteModel.sync({ alter: true });
+        // await CardSqliteModel.sync({ alter: true });
+        // await ProductSqliteModel.sync({ alter: true });
+        // await CartSqliteModel.sync({ alter: true });
+        // await PurchaseSqliteModel.sync({ alter: true });
 
         // await sequelize.sync({ force: true });
         // await UserSqliteModel.update({ admin: true }, { where: { id: 1 } });

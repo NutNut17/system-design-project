@@ -1,3 +1,10 @@
+# About This Repository 關於這個專案
+
+This is a repository project for my own system design course final project. Creating a full stack shopping website consisting some system design knowledge. Up to 1/1/2025, coming to the end of course, this project will not be maintained anymore but will be kept public for reference purpose. Admin's product and cart functionality is not completed yet and some bugs idenfified but not fixed. To check admin feature, use the account username='howwilson11@gmail.com', password='Abc12345'. 
+
+這是我自己的系統設計課程期末專案的儲存庫專案。建立一個包含一些系統設計知識的全端購物網站。截至2025年1月1日，專題已經結束，該項目將不再維護，但將保持公開以供參考。管理員的產品和購物車功能尚未完成，並且已識別但未修復一些錯誤。若要檢查管理功能，請使用帳戶名稱='howwilson11@gmail.com'，密碼='Abc12345'。
+
+
 # 請讀我：系統設計專題
 
 1. 關於我們所使用的web tech，如果有不明白可以閲讀我做的筆記，裏面記錄著我第一次做網站的筆記，也就是本作業[Nut17 Notes](https://nutnut17.github.io/thulite-project/docs/web/web-tech-stack/)

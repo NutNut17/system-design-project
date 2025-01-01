@@ -36,16 +36,16 @@ onMounted(async () => {
             <MobileNavbarComp />
         </div>
 
-        <div class="hidden md:block  p-4 justify-content-center" style="background-color: var(--p-primary-color)">
+        <div class="hidden md:block  p-3 justify-content-center" style="background-color: var(--p-primary-color)">
             <!-- Desktop Version -->
             <NavbarComp />
         </div>
 
-        <div class="p-4" style="background-color: var(--p-surface-100); min-height: 80vh;">
+        <div class="p-3" style="background-color: var(--p-surface-100); min-height: 80vh;">
             <router-view />
         </div>
 
-        <div class="p-4" style="background-color: var(--p-primary-color)">
+        <div class="p-3" style="background-color: var(--p-primary-color)">
             <footer>
                 <p class="text-center">© 2024 NCUE System Design Project Team 11</p>
             </footer>
