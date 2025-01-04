@@ -1,3 +1,7 @@
+Website Link: [https://system-design-project-frontend.onrender.com/](https://system-design-project-frontend.onrender.com/)
+
+Built with Vue + Express.js. Hosted on render through Docker image.
+
 # About This Repository 關於這個專案
 
 This is a repository project for my own system design course final project. Creating a full stack shopping website consisting some system design knowledge. Up to 1/1/2025, coming to the end of course, this project will not be maintained anymore but will be kept public for reference purpose. Admin's product and cart functionality is not completed yet and some bugs idenfified but not fixed. To check admin feature, use the account username='howwilson11@gmail.com', password='Abc12345'. 
